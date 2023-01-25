@@ -4,13 +4,7 @@ import DBcm
 
 from records import records
 
-
-config = {
-    "user": "swimuser",
-    "password": "swimpasswd",
-    "host": "localhost",
-    "database": "swimdataDB",
-}
+from appconfig import config
 
 
 def get_world_records(event):

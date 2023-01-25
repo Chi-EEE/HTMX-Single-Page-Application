@@ -1,29 +1,28 @@
-body {
-  font-family: Verdana, Geneva, Arial, sans-serif;
-  background-color: rgb(160, 240, 240);
-  margin: 10%;
+html, body {
+  margin: 0;
+  height: 100%;
 }
 
-h2 {
-  font-size: 150%;
+/* Split Screen */
+#top {
+  width: 100%;
+  height: 8%;
 }
-
-input[type=submit] {
-  width: 8em;
-  color: white;
-  background-color: blue;
-  font-weight: bold;
+#left {
+  background-color: white;
+  width: 50%;
+  height: 92%;
+  float: left;
 }
-
-a {
-  text-decoration: none;
-  font-weight: bold;
+#left:hover {
+  filter: brightness(90%);
 }
-
-a:hover {
-  text-decoration: underline;
+#right {
+  background-color: white;
+  width: 50%;
+  height: 92%;
+  float: right;
 }
-
-.footer {
-  font-size: 75%;
+#right:hover {
+  filter: brightness(90%);
 }

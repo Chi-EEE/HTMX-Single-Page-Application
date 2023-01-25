@@ -1,0 +1,3 @@
+DBcm
+flask
+python-dotenv

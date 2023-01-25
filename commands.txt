@@ -1,0 +1,3 @@
+docker exec -it swimdataDB mariadb --user root -p
+itcarlow
+grant all on swimdataDB.* to 'swimuser'@'localhost' identified by 'swimpasswd';
