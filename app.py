@@ -132,7 +132,16 @@ def show_event_chart():
         average=average_str,
         worlds=[lcmen, lcwomen, scmen, scwomen],
     )
-
+    
+@app.post("/get_sessions")
+def get_sessions():
+    return render_template(
+        "chart.html",
+        title=the_title,
+        data=chart_data,
+        average=average_str,
+        worlds=[lcmen, lcwomen, scmen, scwomen],
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)  # Starts the web server, and keeps going...
