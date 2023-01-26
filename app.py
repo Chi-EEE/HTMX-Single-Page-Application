@@ -1,4 +1,4 @@
-from flask import Flask, session, render_template, request
+from flask import Flask, session, render_template, request, Response
 
 import os
 import data_utils
@@ -23,36 +23,6 @@ def homepage():
     )
 
 
-# def get_data():
-#     session.clear()  # Just being safe.
-#     keys = ["age", "distance", "stroke", "average", "average_str", "times", "converts"]
-#     session["swimmers"] = {}  # Empty dictionary.
-#     files = os.listdir(swimclub.FOLDER)
-#     files.remove(".DS_Store")
-#     for file in files:  # Process each file one at a time.
-#         name, *the_rest, _times, _converts = swimclub.get_swim_data(
-#             file
-#         )  # Get the data.
-#         if name not in session["swimmers"]:
-#             session["swimmers"][name] = []
-#         session["swimmers"][name].append({k: v for k, v in zip(keys, the_rest)})
-#         session["swimmers"][name][-1]["file"] = file
-
-
-# @app.get("/sessions")
-# def get_session_list():
-#     session_dates = [
-#         row[0].isoformat().split("T")[0] for row in data_utils.get_list_of_sessions()
-#     ]
-#     return render_template(
-#         "select.html",
-#         data=sorted(session_dates, reverse=True),
-#         title="Please select a swim session to filter on",
-#         select_id="the_session",
-#         url="/swimmers",
-#     )
-
-
 # Duplicate the values in the array and return the values in the option element format
 def to_option_elements(values):
     return ("""<option value="{}">{}</option>\n""" * len(values)).format(
@@ -65,7 +35,10 @@ def get_swimmers():
     swim_session = request.args.get("session")
     session["swim_session"] = swim_session  # Let's remember this value.
     names = data_utils.get_swimmers_list_by_session(swim_session)
-    return to_option_elements(sorted(names))
+    response = Response()
+    response.headers["HX-Trigger"] = "changedSession"
+    response.data = to_option_elements(sorted(names))
+    return response
 
 
 @app.get("/events")
@@ -75,7 +48,6 @@ def get_events():
         swimmer, session["swim_session"]
     )  # A list of three-tuples.
     events = [t[0] + "-" + t[1] for t in data]  # A list of events.
-
     return to_option_elements(sorted(events))
 
 

@@ -14,7 +14,7 @@
                 Select a session:
             </label>
             <br>
-            <select id="session" name="session" hx-get="/swimmers" hx-target="#swimmer" hx-indicator=".htmx-indicator">
+            <select id="session" name="session" hx-trigger="change, load" hx-get="/swimmers" hx-target="#swimmer"> <!--select to change the third select-->
                 {% for session in sessions %}
                     <option value="{{ session }}">{{ session }}</option>
                 {% endfor %}
@@ -24,14 +24,14 @@
             <label>
                 Select a swimmer:
             </label>
-            <select id="swimmer" name="swimmer" hx-get="/events" hx-target="#event" hx-indicator=".htmx-indicator">
+            <select id="swimmer" name="swimmer" hx-trigger="change, load, changedSession" hx-get="/events" hx-target="#event">
             </select>
         </div>
         <div class="third section">
             <label>
                 Select an event:
             </label>
-            <select id="event" name="event" hx-indicator=".htmx-indicator">
+            <select id="event" name="event"> <!--select to be cleared-->
             </select>
         </div>
     </div>
