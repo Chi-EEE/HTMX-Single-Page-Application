@@ -53,40 +53,30 @@ def homepage():
 #     )
 
 
-# @app.post("/swimmers")
-# def get_swimmers_names():
-#     the_session = request.form["the_session"]
-#     session["the_session"] = the_session  # Let's remember this value.
-#     names = data_utils.get_swimmers_list_by_session(the_session)
-#     return render_template(
-#         "select.html",
-#         data=sorted(names),
-#         title="Please select a swimmer from the dropdown list",
-#         select_id="swimmer",
-#         url="/showevents",
-#     )
+# Duplicate the values in the array and return the values in the option element format
+def to_option_elements(values):
+    return ("""<option value="{}">{}</option>\n""" * len(values)).format(
+        *[val for val in values for _ in range(2)]
+    )
 
 
-# @app.post("/showevents")
-# def show_swimmer_files():
-#     name = request.form["swimmer"]
+@app.get("/swimmers")
+def get_swimmers():
+    swim_session = request.args.get("session")
+    session["swim_session"] = swim_session  # Let's remember this value.
+    names = data_utils.get_swimmers_list_by_session(swim_session)
+    return to_option_elements(sorted(names))
 
-#     data = data_utils.get_swimmer_data(
-#         name, session["the_session"]
-#     )  # A list of three-tuples.
-#     events = [t[0] + "-" + t[1] for t in data]  # A list of events.
-#     ages = list(set([t[-1] for t in data]))  # A list of unique ages.
 
-#     session["swimmer"] = name
-#     session["age"] = ages[0]  # The first age from the unique list.
+@app.get("/events")
+def get_events():
+    swimmer = request.args.get("swimmer")
+    data = data_utils.get_swimmer_data(
+        swimmer, session["swim_session"]
+    )  # A list of three-tuples.
+    events = [t[0] + "-" + t[1] for t in data]  # A list of events.
 
-#     return render_template(
-#         "select.html",
-#         data=events,
-#         title="Please select an event from the dropdown list",
-#         select_id="event",
-#         url="/showchart",
-#     )
+    return to_option_elements(sorted(events))
 
 
 def convert2range(v, f_min, f_max, t_min, t_max):
@@ -136,7 +126,7 @@ def show_event_chart():
         average=average_str,
         worlds=[lcmen, lcwomen, scmen, scwomen],
     )
-    
-    
+
+
 if __name__ == "__main__":
     app.run(debug=True)  # Starts the web server, and keeps going...

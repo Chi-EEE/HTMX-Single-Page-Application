@@ -9,21 +9,17 @@ html, body {
   height: 8%;
 }
 #left {
-  background-color: white;
   width: 50%;
   height: 92%;
   float: left;
 }
-#left:hover {
-  filter: brightness(90%);
-}
 #right {
-  background-color: white;
   width: 50%;
   height: 92%;
   float: right;
 }
-#right:hover {
+.section:hover {
+  background-color: white;
   filter: brightness(90%);
 }
 .third {

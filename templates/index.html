@@ -9,39 +9,33 @@
         </h1>
     </div>
     <div id="left">
-        <div class="third">
+        <div class="third section">
             <label>
                 Select a session:
             </label>
             <br>
-            <select name="session" hx-get="/swimmers" hx-target="#session" hx-indicator=".htmx-indicator">
+            <select id="session" name="session" hx-get="/swimmers" hx-target="#swimmer" hx-indicator=".htmx-indicator">
                 {% for session in sessions %}
                     <option value="{{ session }}">{{ session }}</option>
                 {% endfor %}
             </select>
         </div>
-        <div class="third">
+        <div class="third section">
             <label>
                 Select a swimmer:
             </label>
-            <select name="session" hx-get="/swimmers" hx-target="#session" hx-indicator=".htmx-indicator">
-                {% for session in sessions %}
-                    <option value="{{ session }}">{{ session }}</option>
-                {% endfor %}
+            <select id="swimmer" name="swimmer" hx-get="/events" hx-target="#event" hx-indicator=".htmx-indicator">
             </select>
         </div>
-        <div class="third">
+        <div class="third section">
             <label>
                 Select an event:
             </label>
-            <select name="session" hx-get="/swimmers" hx-target="#session" hx-indicator=".htmx-indicator">
-                {% for session in sessions %}
-                    <option value="{{ session }}">{{ session }}</option>
-                {% endfor %}
+            <select id="event" name="event" hx-indicator=".htmx-indicator">
             </select>
         </div>
     </div>
-    <div id="right">
+    <div id="right" class="section">
         {{ chart }}
     </div>
 </div>

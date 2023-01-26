@@ -24,7 +24,7 @@ def get_world_records(event):
 #     return names
 
 
-def get_swimmer_data(name, the_session):
+def get_swimmer_data(name, swim_session):
     SQL = """  
         select distinct strokes.distance, strokes.stroke, swimmers.age
         from swimmers, strokes, times
@@ -38,10 +38,11 @@ def get_swimmer_data(name, the_session):
             SQL,
             (
                 name,
-                the_session,
+                swim_session,
             ),
         )
         results = db.fetchall()  # a list of tuples.
+    print(results)
     ## events = [t[0] + "-" + t[1] for t in results]  # a list of swimming events.
     return results
 
