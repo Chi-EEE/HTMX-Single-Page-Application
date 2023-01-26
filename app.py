@@ -13,9 +13,13 @@ app.config["SESSION_TYPE"] = "filessystem"
 
 @app.get("/")  # The @ symbol is a Python decorator.
 def homepage():
+    session_dates = [
+        row[0].isoformat().split("T")[0] for row in data_utils.get_list_of_sessions()
+    ]
     return render_template(
         "index.html",
         title="Welcome to Swimclub",
+        sessions=session_dates,
     )
 
 
@@ -35,54 +39,54 @@ def homepage():
 #         session["swimmers"][name][-1]["file"] = file
 
 
-@app.get("/sessions")
-def get_session_list():
-    session_dates = [
-        row[0].isoformat().split("T")[0] for row in data_utils.get_list_of_sessions()
-    ]
-    return render_template(
-        "select.html",
-        data=sorted(session_dates, reverse=True),
-        title="Please select a swim session to filter on",
-        select_id="the_session",
-        url="/swimmers",
-    )
+# @app.get("/sessions")
+# def get_session_list():
+#     session_dates = [
+#         row[0].isoformat().split("T")[0] for row in data_utils.get_list_of_sessions()
+#     ]
+#     return render_template(
+#         "select.html",
+#         data=sorted(session_dates, reverse=True),
+#         title="Please select a swim session to filter on",
+#         select_id="the_session",
+#         url="/swimmers",
+#     )
 
 
-@app.post("/swimmers")
-def get_swimmers_names():
-    the_session = request.form["the_session"]
-    session["the_session"] = the_session  # Let's remember this value.
-    names = data_utils.get_swimmers_list_by_session(the_session)
-    return render_template(
-        "select.html",
-        data=sorted(names),
-        title="Please select a swimmer from the dropdown list",
-        select_id="swimmer",
-        url="/showevents",
-    )
+# @app.post("/swimmers")
+# def get_swimmers_names():
+#     the_session = request.form["the_session"]
+#     session["the_session"] = the_session  # Let's remember this value.
+#     names = data_utils.get_swimmers_list_by_session(the_session)
+#     return render_template(
+#         "select.html",
+#         data=sorted(names),
+#         title="Please select a swimmer from the dropdown list",
+#         select_id="swimmer",
+#         url="/showevents",
+#     )
 
 
-@app.post("/showevents")
-def show_swimmer_files():
-    name = request.form["swimmer"]
+# @app.post("/showevents")
+# def show_swimmer_files():
+#     name = request.form["swimmer"]
 
-    data = data_utils.get_swimmer_data(
-        name, session["the_session"]
-    )  # A list of three-tuples.
-    events = [t[0] + "-" + t[1] for t in data]  # A list of events.
-    ages = list(set([t[-1] for t in data]))  # A list of unique ages.
+#     data = data_utils.get_swimmer_data(
+#         name, session["the_session"]
+#     )  # A list of three-tuples.
+#     events = [t[0] + "-" + t[1] for t in data]  # A list of events.
+#     ages = list(set([t[-1] for t in data]))  # A list of unique ages.
 
-    session["swimmer"] = name
-    session["age"] = ages[0]  # The first age from the unique list.
+#     session["swimmer"] = name
+#     session["age"] = ages[0]  # The first age from the unique list.
 
-    return render_template(
-        "select.html",
-        data=events,
-        title="Please select an event from the dropdown list",
-        select_id="event",
-        url="/showchart",
-    )
+#     return render_template(
+#         "select.html",
+#         data=events,
+#         title="Please select an event from the dropdown list",
+#         select_id="event",
+#         url="/showchart",
+#     )
 
 
 def convert2range(v, f_min, f_max, t_min, t_max):
@@ -133,15 +137,6 @@ def show_event_chart():
         worlds=[lcmen, lcwomen, scmen, scwomen],
     )
     
-@app.post("/get_sessions")
-def get_sessions():
-    return render_template(
-        "chart.html",
-        title=the_title,
-        data=chart_data,
-        average=average_str,
-        worlds=[lcmen, lcwomen, scmen, scwomen],
-    )
-
+    
 if __name__ == "__main__":
     app.run(debug=True)  # Starts the web server, and keeps going...

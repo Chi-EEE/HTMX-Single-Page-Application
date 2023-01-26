@@ -26,3 +26,9 @@ html, body {
 #right:hover {
   filter: brightness(90%);
 }
+.third {
+  height: 33%;
+}
+.third label {
+  font-size: larger;
+}
