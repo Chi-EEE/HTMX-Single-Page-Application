@@ -51,6 +51,45 @@ def get_events():
     return to_option_elements(sorted(events))
 
 
+conversion = {
+    "Fly": "butterfly",
+    "Back": "backstroke",
+    "Breast": "breaststroke",
+    "Free": "freestyle",
+    "IM": "individual medley",
+}
+
+
+@app.get("/get_chart")
+def show_event_chart():
+    event = request.args.get("event")
+    distance, stroke = event.split("-")
+    the_stroke = conversion[stroke]
+    the_event = f"{distance} {the_stroke}"
+
+    lcmen, lcwomen, scmen, scwomen = data_utils.get_world_records(the_event)
+
+    swim_session = session["swim_session"]
+
+    swimmer = session["swimmer"]
+    age = session["age"]
+    average_str, times, converts = data_utils.get_chart_data(
+        swimmer, age, event, swim_session
+    )
+    the_converts = [convert2range(c, 0, max(converts), 0, 350) for c in converts]
+    chart_data = list(zip(times, the_converts))
+
+    the_title = f"{swimmer} (Under {age}) {event} - {swim_session}"
+
+    return render_template(
+        "chart.html",
+        title=the_title,
+        data=chart_data,
+        average=average_str,
+        worlds=[lcmen, lcwomen, scmen, scwomen],
+    )
+
+
 def convert2range(v, f_min, f_max, t_min, t_max):
     """Given a value (v) in the range f_min-f_max, convert the value
     to its equivalent value in the range t_min-t_max.
@@ -61,43 +100,43 @@ def convert2range(v, f_min, f_max, t_min, t_max):
     return round(t_min + (t_max - t_min) * ((v - f_min) / (f_max - f_min)), 2)
 
 
-conversion = {
-    "Fly": "butterfly",
-    "Back": "backstroke",
-    "Breast": "breaststroke",
-    "Free": "freestyle",
-    "IM": "individual medley",
-}
+# conversion = {
+#     "Fly": "butterfly",
+#     "Back": "backstroke",
+#     "Breast": "breaststroke",
+#     "Free": "freestyle",
+#     "IM": "individual medley",
+# }
 
 
-@app.post("/showchart")
-def show_event_chart():
-    event = request.form["event"]
-    distance, stroke = event.split("-")
-    the_stroke = conversion[stroke]
-    the_event = f"{distance} {the_stroke}"
+# @app.post("/showchart")
+# def show_event_chart():
+#     event = request.form["event"]
+#     distance, stroke = event.split("-")
+#     the_stroke = conversion[stroke]
+#     the_event = f"{distance} {the_stroke}"
 
-    lcmen, lcwomen, scmen, scwomen = data_utils.get_world_records(the_event)
+#     lcmen, lcwomen, scmen, scwomen = data_utils.get_world_records(the_event)
 
-    the_session = session["the_session"]
+#     the_session = session["the_session"]
 
-    swimmer = session["swimmer"]
-    age = session["age"]
-    average_str, times, converts = data_utils.get_chart_data(
-        swimmer, age, event, the_session
-    )
-    the_converts = [convert2range(c, 0, max(converts), 0, 350) for c in converts]
-    chart_data = list(zip(times, the_converts))
+#     swimmer = session["swimmer"]
+#     age = session["age"]
+#     average_str, times, converts = data_utils.get_chart_data(
+#         swimmer, age, event, the_session
+#     )
+#     the_converts = [convert2range(c, 0, max(converts), 0, 350) for c in converts]
+#     chart_data = list(zip(times, the_converts))
 
-    the_title = f"{swimmer} (Under {age}) {event} - {the_session}"
+#     the_title = f"{swimmer} (Under {age}) {event} - {the_session}"
 
-    return render_template(
-        "chart.html",
-        title=the_title,
-        data=chart_data,
-        average=average_str,
-        worlds=[lcmen, lcwomen, scmen, scwomen],
-    )
+#     return render_template(
+#         "chart.html",
+#         title=the_title,
+#         data=chart_data,
+#         average=average_str,
+#         worlds=[lcmen, lcwomen, scmen, scwomen],
+#     )
 
 
 if __name__ == "__main__":

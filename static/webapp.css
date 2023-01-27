@@ -8,12 +8,12 @@ html, body {
   width: 100%;
   height: 8%;
 }
-#left {
+.left {
   width: 50%;
   height: 92%;
   float: left;
 }
-#right {
+.right {
   width: 50%;
   height: 92%;
   float: right;

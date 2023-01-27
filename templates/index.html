@@ -8,7 +8,7 @@
         {{ title }}
         </h1>
     </div>
-    <div id="left">
+    <div class="left">
         <div class="third section">
             <label>
                 Select a session:
@@ -31,12 +31,11 @@
             <label>
                 Select an event:
             </label>
-            <select id="event" name="event"> <!--select to be cleared-->
+            <select id="event" name="event" hx-trigger="change, load, changedSession delay:20ms from:body" hx-get="/get_chart" hx-target="#chart">
             </select>
         </div>
     </div>
-    <div id="right" class="section">
-        {{ chart }}
+    <div id="chart" class="right section">
     </div>
 </div>
 {% endblock %}
