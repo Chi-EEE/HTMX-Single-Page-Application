@@ -42,7 +42,6 @@ def get_swimmer_data(name, swim_session):
             ),
         )
         results = db.fetchall()  # a list of tuples.
-    print(results)
     ## events = [t[0] + "-" + t[1] for t in results]  # a list of swimming events.
     return results
 
