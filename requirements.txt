@@ -1,3 +1,2 @@
 DBcm
 flask
-python-dotenv
