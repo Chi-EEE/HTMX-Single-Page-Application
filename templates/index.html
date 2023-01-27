@@ -24,7 +24,7 @@
             <label>
                 Select a swimmer:
             </label>
-            <select id="swimmer" name="swimmer" hx-trigger="change, load, changedSession" hx-get="/events" hx-target="#event">
+            <select id="swimmer" name="swimmer" hx-trigger="change, load, changedSession delay:20ms from:body" hx-get="/events" hx-target="#event">
             </select>
         </div>
         <div class="third section">
