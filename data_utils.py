@@ -15,15 +15,6 @@ def get_world_records(event):
     return lcmen, lcwomen, scmen, scwomen
 
 
-# def get_swimmers_list():
-#     SQL = "select name from swimmers"
-#     with DBcm.UseDatabase(config) as db:
-#         db.execute(SQL)
-#         results = db.fetchall()  # a list of tuples.
-#     names = [t[0] for t in results]  # a list of names.
-#     return names
-
-
 def get_swimmer_data(name, swim_session):
     SQL = """  
         select distinct strokes.distance, strokes.stroke, swimmers.age
@@ -42,7 +33,6 @@ def get_swimmer_data(name, swim_session):
             ),
         )
         results = db.fetchall()  # a list of tuples.
-    ## events = [t[0] + "-" + t[1] for t in results]  # a list of swimming events.
     return results
 
 

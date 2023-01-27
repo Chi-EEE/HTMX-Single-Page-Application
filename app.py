@@ -39,7 +39,7 @@ def get_swimmers():
 @app.get("/events")
 def get_events():
     swimmer = request.args.get("swimmer")
-    session["swimmer"] = swimmer 
+    session["swimmer"] = swimmer
     data = data_utils.get_swimmer_data(
         swimmer, session["swim_session"]
     )  # A list of three-tuples.
