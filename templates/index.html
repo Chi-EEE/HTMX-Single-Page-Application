@@ -14,7 +14,7 @@
                 Select a session:
             </label>
             <br>
-            <select id="session" name="session" hx-get="/swimmers" hx-target="#swimmer" hx-trigger="load">
+            <select id="session" name="session" hx-get="/swimmers" hx-target="#swimmer" hx-trigger="load, change">
                 {% for session in sessions %}
                     <option value="{{ session }}">{{ session }}</option>
                 {% endfor %}
